@@ -166,6 +166,25 @@ def get_disk_date_time_metrics(date_, time_):
     return jsonify({'disk_metrics': data["disk"]})
 
 
+@app.route('/network', methods=['GET'])
+def get_network_metrics():
+    data = sd.save_data(base_dir)
+    return jsonify({'network_metrics': data["network"]})
+
+
+# ends points based on date
+@app.route('/network/<string:date_>', methods=['GET'])
+def get_network_date_metrics(date_):
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'network_metrics': data["network"]})
+
+
+@app.route('/network/<string:date_>/<string:time_>', methods=['GET'])
+def get_network_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
+    return jsonify({'network_metrics': data["network"]})
+
+
 @app.before_first_request
 def create():
     global metrics, sd, base_dir

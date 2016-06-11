@@ -2,16 +2,15 @@ import psutil
 
 
 class SystemMetrics:
-
     def __init__(self):
         self._cpu_metrics = dict()
         self._disk_metrics = dict()
         self._memory_metrics = dict()
         self._system_metric = dict()
+        self._network_metric = dict()
 
     @staticmethod
     def cpu_times():
-
         cpu_times_metrics = {}
         cp_metrics = psutil.cpu_times(percpu=False)
         cpu_times_metrics['user'] = cp_metrics.user
@@ -23,7 +22,6 @@ class SystemMetrics:
 
     @staticmethod
     def cpu_usage():
-
         cpu_usage_metrics = dict()
         cpu_usage_metrics['cpu_count'] = psutil.cpu_count(logical=True)
         cpu_usage_metrics['cpu_percent'] = psutil.cpu_percent(interval=1)
@@ -32,7 +30,6 @@ class SystemMetrics:
         return cpu_usage_metrics
 
     def cpu_aggregate(self):
-
         self._cpu_metrics['cpu_times'] = self.cpu_times()
         self._cpu_metrics['cpu_usage'] = self.cpu_usage()
 
@@ -40,7 +37,6 @@ class SystemMetrics:
 
     @staticmethod
     def memory_virtual():
-
         memory_virtual_memory_metrics = {}
         vm = psutil.virtual_memory()
         memory_virtual_memory_metrics['total'] = vm.total
@@ -53,7 +49,6 @@ class SystemMetrics:
 
     @staticmethod
     def swap_memory():
-
         memory_swap = {}
         sm = psutil.swap_memory()
         memory_swap['total'] = sm.total
@@ -66,14 +61,12 @@ class SystemMetrics:
         return memory_swap
 
     def memory_aggregate(self):
-
         self._memory_metrics['virtual_memory'] = self.memory_virtual()
         self._memory_metrics['swap_memory'] = self.swap_memory()
 
         return self._memory_metrics
 
     def memory_partitions(self):
-
         disk_memory_partitions = {}
         disks = psutil.disk_partitions()
 
@@ -87,19 +80,37 @@ class SystemMetrics:
 
             disk_memory_partitions[disk.device] = disk_metrics
 
+        # max data used
+        max_data_used = [data_u['used'] for device, data_u in disk_memory_partitions.items()]
+        disk_memory_partitions['max_used'] = max(max_data_used)
+
         self._disk_metrics = disk_memory_partitions
 
         return self._disk_metrics
 
-    def system_metrics(self):
+    def network_metrics(self):
 
+        network_data = {}
+        nm = psutil.net_io_counters(pernic=False)
+
+        network_data['bytes_sent'] = nm.bytes_sent
+        network_data['bytes_recv'] = nm.bytes_recv
+        network_data['packets_sent'] = nm.packets_sent
+        network_data['packets_recv'] = nm.packets_recv
+
+        self._network_metric = network_data
+
+        return self._network_metric
+
+    def system_metrics(self):
         self._system_metric['cpu'] = self.cpu_aggregate()
         self._system_metric['memory'] = self.memory_aggregate()
         self._system_metric['disk'] = self.memory_partitions()
+        self._system_metric['network'] = self.network_metrics()
 
         return self._system_metric
 
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.system_metrics())
+    print(metrics.memory_partitions())
