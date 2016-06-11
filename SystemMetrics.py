@@ -80,6 +80,10 @@ class SystemMetrics:
 
             disk_memory_partitions[disk.device] = disk_metrics
 
+        # max data used
+        max_data_used = [ data_u['used'] for device, data_u in disk_memory_partitions]
+        disk_memory_partitions['max_used'] = max(max_data_used)
+
         self._disk_metrics = disk_memory_partitions
 
         return self._disk_metrics
