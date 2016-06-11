@@ -7,8 +7,20 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
-def system_metrics():
+def system_metrics_():
     data = sd.save_data(base_dir)
+    return jsonify({'system_metrics': data})
+
+
+@app.route('/<string:date_>', methods=['GET'])
+def system_metrics_date(date_):
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'system_metrics': data})
+
+
+@app.route('/<string:date_>/<string:time_>', methods=['GET'])
+def system_metrics_date_time(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'system_metrics': data})
 
 
@@ -26,6 +38,15 @@ def get_cpu_times_date_metrics(date_):
     return jsonify({'cpu_time': data['cpu']['cpu_times']})
 
 
+# ends points based on date
+@app.route('/cpu/times/<string:date_>/<string:time_>', methods=['GET'])
+def get_cpu_times_date_time_metrics(date_, time_):
+    date_ = str(date_)
+    time_ = str(time_)
+    data = sd.get_data_time(base_dir, date_, time_)
+    return jsonify({'cpu_time': data['cpu']['cpu_times']})
+
+
 @app.route('/cpu/usage', methods=['GET'])
 def get_cpu_usage_metrics():
     data = sd.save_data(base_dir)
@@ -40,6 +61,15 @@ def get_cpu_usage_date_metrics(date_):
     return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
 
 
+# ends points based on date
+@app.route('/cpu/usage/<string:date_>/<string:time_>', methods=['GET'])
+def get_cpu_usage_date_time_metrics(date_, time_):
+    date_ = str(date_)
+    time_ = str(time_)
+    data = sd.get_data_time(base_dir, date_, time_)
+    return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
+
+
 @app.route('/cpu', methods=['GET'])
 def get_cpu_metrics():
     data = sd.save_data(base_dir)
@@ -49,8 +79,13 @@ def get_cpu_metrics():
 # ends points based on date
 @app.route('/cpu/<string:date_>', methods=['GET'])
 def get_cpu_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
+    return jsonify({'cpu': data['cpu']})
+
+
+@app.route('/cpu/<string:date_>/<string:time_>', methods=['GET'])
+def get_cpu_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'cpu': data['cpu']})
 
 
@@ -63,8 +98,13 @@ def get_memory_virtual_memory():
 # ends points based on date
 @app.route('/memory/virtual_memory/<string:date_>', methods=['GET'])
 def get_memory_virtual_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
+    return jsonify({'virtual_memory': data['memory']['virtual_memory']})
+
+
+@app.route('/memory/virtual_memory/<string:date_>/<string:time_>', methods=['GET'])
+def get_memory_virtual_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'virtual_memory': data['memory']['virtual_memory']})
 
 
@@ -77,8 +117,13 @@ def get_memory_swap_memory():
 # ends points based on date
 @app.route('/memory/swap_memory/<string:date_>', methods=['GET'])
 def get_memory_swap_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
+    return jsonify({'swap_memory': data['memory']['swap_memory']})
+
+
+@app.route('/memory/swap_memory/<string:date_>/<string:time_>', methods=['GET'])
+def get_swap_virtual_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'swap_memory': data['memory']['swap_memory']})
 
 
@@ -91,8 +136,13 @@ def get_memory_metrics():
 # ends points based on date
 @app.route('/memory/<string:date_>', methods=['GET'])
 def get_memory_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
+    return jsonify({'memory_metrics': data['memory']})
+
+
+@app.route('/memory/<string:date_>/<string:time_>', methods=['GET'])
+def get_memory_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'memory_metrics': data['memory']})
 
 
@@ -107,6 +157,12 @@ def get_disk_metrics():
 def get_disk_date_metrics(date_):
     date_ = str(date_)
     data = sd.get_data(base_dir, date_)
+    return jsonify({'disk_metrics': data["disk"]})
+
+
+@app.route('/disk/<string:date_>/<string:time_>', methods=['GET'])
+def get_disk_date_time_metrics(date_, time_):
+    data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'disk_metrics': data["disk"]})
 
 

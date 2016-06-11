@@ -41,17 +41,31 @@ class SaveData:
     @staticmethod
     def get_data(base_path, date_):
 
-        path = base_path + "/" + "metrics_data" + "/" +date_
-        os.chdir(path)
-
-        filename = sorted(os.listdir())[-1]
+        path = base_path + "/" + "metrics_data" + "/" + date_
 
         try:
+            os.chdir(path)
+            filename = sorted(os.listdir())[-1]
+
             f = open(filename)
             data = f.read()
             return json.loads(data)
         except Exception as e:
-            return ""
+            return json.loads("{}")
+
+    @staticmethod
+    def get_data_time(base_path, date_, time_):
+
+        path = base_path + "/" + "metrics_data" + "/" + date_
+
+        try:
+
+            os.chdir(path)
+            f = open(time_)
+            data = f.read()
+            return json.loads(data)
+        except Exception as e:
+            return json.loads("{}")
 
 if __name__ == "__main__":
     sd = SaveData()
