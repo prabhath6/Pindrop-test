@@ -5,6 +5,7 @@ from files_data import SaveData
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET'])
 def system_metrics():
     return jsonify({'system_metrics': metrics.system_metrics()})
@@ -64,8 +65,13 @@ def create():
 
     metrics = SystemMetrics()
     sd = SaveData()
+
+    # base dir
     base_dir = os.path.dirname(os.path.realpath(__file__))
+
+    # creating folders
     sd.create_base_folder(base_dir)
+    sd.add_today(base_dir)
 
 if __name__ == '__main__':
     app.run()
