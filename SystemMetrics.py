@@ -45,7 +45,20 @@ class SystemMetrics:
 
         return memory_virtual_memory_metrics
 
+    def swap_memory(self):
+
+        memory_swap = {}
+        sm = psutil.swap_memory()
+        memory_swap['total'] = sm.total
+        memory_swap['used'] = sm.used
+        memory_swap['free'] = sm.free
+        memory_swap['percent'] = sm.percent
+        memory_swap['bytes_in'] = sm.sin
+        memory_swap['bytes_out'] = sm.sout
+
+        return memory_swap
+
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.memory_virtual())
+    print(metrics.swap_memory())
