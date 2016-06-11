@@ -5,6 +5,7 @@ class SystemMetrics:
 
     def __init__(self):
         self._cpu_metrics = dict()
+        self._disk_metrics = dict()
 
     def cpu_times(self):
 
@@ -58,7 +59,32 @@ class SystemMetrics:
 
         return memory_swap
 
+    def memory_partitions(self):
+
+        disk_memory_partitions = {}
+        disks = psutil.disk_partitions()
+
+        for disk in disks:
+            disk_metrics = {}
+            dm = psutil.disk_usage(disk.device)
+            disk_metrics['total'] = dm.total
+            disk_metrics['used'] = dm.used
+            disk_metrics['free'] = dm.free
+            disk_metrics['percent'] = dm.percent
+
+            disk_memory_partitions[disk.device] = disk_metrics
+
+        return disk_memory_partitions
+
+    def memory_aggregate(self):
+
+        self._disk_metrics['virtual_memory'] = self.memory_virtual()
+        self._disk_metrics['swap_memory'] = self.swap_memory()
+        self._disk_metrics['disk_partitions'] = self.memory_partitions()
+
+        return self._disk_metrics
+
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.swap_memory())
+    print(metrics.memory_partitions())
