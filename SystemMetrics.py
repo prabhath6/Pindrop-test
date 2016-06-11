@@ -33,7 +33,19 @@ class SystemMetrics:
 
         return self._cpu_metrics
 
+    def memory_virtual(self):
+
+        memory_virtual_memory_metrics = {}
+        vm = psutil.virtual_memory()
+        memory_virtual_memory_metrics['total'] = vm.total
+        memory_virtual_memory_metrics['available'] = vm.available
+        memory_virtual_memory_metrics['free'] = vm.free
+        memory_virtual_memory_metrics['used'] = vm.used
+        memory_virtual_memory_metrics['percent'] = vm.percent
+
+        return memory_virtual_memory_metrics
+
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.cpu_aggregate())
+    print(metrics.memory_virtual())
