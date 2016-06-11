@@ -20,7 +20,13 @@ def get_cpu_times_metrics():
 @app.route('/cpu/usage', methods=['GET'])
 def get_cpu_usage_metrics():
 
-    return jsonify({'cpu_time': metrics.cpu_usage()})
+    return jsonify({'cpu_usage': metrics.cpu_usage()})
+
+
+@app.route('/cpu', methods=['GET'])
+def get_cpu_metrics():
+
+    return jsonify({'cpu': metrics.cpu_aggregate()})
 
 
 if __name__ == '__main__':
