@@ -8,60 +8,55 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def system_metrics():
-    return jsonify({'system_metrics': metrics.system_metrics()})
+    data = sd.save_data(base_dir)
+    return jsonify({'system_metrics': data})
 
 
 @app.route('/cpu/times', methods=['GET'])
 def get_cpu_times_metrics():
-
-    return jsonify({'cpu_time': metrics.cpu_times()})
+    data = sd.save_data(base_dir)
+    return jsonify({'cpu_time': data['cpu']['cpu_time']})
 
 
 @app.route('/cpu/usage', methods=['GET'])
 def get_cpu_usage_metrics():
-
-    return jsonify({'cpu_usage': metrics.cpu_usage()})
+    data = sd.save_data(base_dir)
+    return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
 
 
 @app.route('/cpu', methods=['GET'])
 def get_cpu_metrics():
-
-    return jsonify({'cpu': metrics.cpu_aggregate()})
+    data = sd.save_data(base_dir)
+    return jsonify({'cpu': data['cpu']})
 
 
 @app.route('/memory/virtual_memory', methods=['GET'])
 def get_memory_virtual_memory():
-
-    return jsonify({'virtual_memory': metrics.memory_virtual()})
+    data = sd.save_data(base_dir)
+    return jsonify({'virtual_memory': data['memory']['virtual_memory']})
 
 
 @app.route('/memory/swap_memory', methods=['GET'])
 def get_memory_swap_memory():
-
-    return jsonify({'swap_memory': metrics.swap_memory()})
-
-
-@app.route('/memory/memory_partitions', methods=['GET'])
-def get_memory_partitions():
-
-    return jsonify({'memory_partitions': metrics.memory_partitions()})
+    data = sd.save_data(base_dir)
+    return jsonify({'swap_memory': data['memory']['swap_memory']})
 
 
 @app.route('/memory', methods=['GET'])
 def get_memory_metrics():
-
-    return jsonify({'memory_metrics': metrics.memory_aggregate()})
+    data = sd.save_data(base_dir)
+    return jsonify({'memory_metrics': data['memory']})
 
 
 @app.route('/disk', methods=['GET'])
 def get_disk_metrics():
-
-    return jsonify({'disk_metrics': metrics.memory_partitions()})
+    data = sd.save_data(base_dir)
+    return jsonify({'disk_metrics': data["disk"]})
 
 
 @app.before_first_request
 def create():
-    global metrics, sd
+    global metrics, sd, base_dir
 
     metrics = SystemMetrics()
     sd = SaveData()

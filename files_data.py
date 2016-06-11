@@ -1,5 +1,7 @@
 import os
 from datetime import datetime
+from time import gmtime, strftime
+import json
 from SystemMetrics import SystemMetrics
 
 
@@ -21,6 +23,20 @@ class SaveData:
         today_ = date_.strftime('%Y-%m-%d')
         if not os.path.exists(today_):
             os.mkdir(today_)
+
+    def save_data(self, base_path):
+
+        date_ = datetime.now().date()
+        today_ = date_.strftime('%Y-%m-%d')
+        os.chdir(base_path+"/metrics_data/"+today_)
+        time_ = strftime("%H:%M:%S", gmtime())
+
+        whole_data = self.metrics.system_metrics()
+
+        if not os.path.exists(time_):
+            with open(time_,'w+') as f:
+                f.write(json.dumps(whole_data))
+        return whole_data
 
 if __name__ == "__main__":
     sd = SaveData()
