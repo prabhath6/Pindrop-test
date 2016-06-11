@@ -40,5 +40,17 @@ def get_memory_swap_memory():
 
     return jsonify({'swap_memory': metrics.swap_memory()})
 
+
+@app.route('/memory/memory_partitions', methods=['GET'])
+def get_memory_partitions():
+
+    return jsonify({'memory_partitions': metrics.memory_partitions()})
+
+
+@app.route('/memory', methods=['GET'])
+def get_memory_metrics():
+
+    return jsonify({'memory_metrics': metrics.memory_aggregate()})
+
 if __name__ == '__main__':
     app.run()
