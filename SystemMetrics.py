@@ -7,6 +7,7 @@ class SystemMetrics:
         self._cpu_metrics = dict()
         self._disk_metrics = dict()
         self._memory_metrics = dict()
+        self._system_metric = dict()
 
     def cpu_times(self):
 
@@ -86,7 +87,15 @@ class SystemMetrics:
 
         return self._disk_metrics
 
+    def system_metrics(self):
+
+        self._system_metric['cpu'] = self.cpu_aggregate()
+        self._system_metric['memory'] = self.memory_aggregate()
+        self._system_metric['disk'] = self.memory_partitions()
+
+        return self._system_metric
+
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.memory_partitions())
+    print(metrics.system_metrics())
