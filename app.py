@@ -7,8 +7,8 @@ metrics = SystemMetrics()
 
 
 @app.route('/', methods=['GET'])
-def hello_world():
-    return jsonify({'message': 'Hello World'})
+def system_metrics():
+    return jsonify({'system_metrics': metrics.system_metrics()})
 
 
 @app.route('/cpu/times', methods=['GET'])
