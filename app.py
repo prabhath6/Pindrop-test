@@ -15,12 +15,28 @@ def system_metrics():
 @app.route('/cpu/times', methods=['GET'])
 def get_cpu_times_metrics():
     data = sd.save_data(base_dir)
-    return jsonify({'cpu_time': data['cpu']['cpu_time']})
+    return jsonify({'cpu_time': data['cpu']['cpu_times']})
+
+
+# ends points based on date
+@app.route('/cpu/times/<string:date_>', methods=['GET'])
+def get_cpu_times_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'cpu_time': data['cpu']['cpu_times']})
 
 
 @app.route('/cpu/usage', methods=['GET'])
 def get_cpu_usage_metrics():
     data = sd.save_data(base_dir)
+    return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
+
+
+# ends points based on date
+@app.route('/cpu/usage/<string:date_>', methods=['GET'])
+def get_cpu_usage_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
     return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
 
 
@@ -30,9 +46,25 @@ def get_cpu_metrics():
     return jsonify({'cpu': data['cpu']})
 
 
+# ends points based on date
+@app.route('/cpu/<string:date_>', methods=['GET'])
+def get_cpu_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'cpu': data['cpu']})
+
+
 @app.route('/memory/virtual_memory', methods=['GET'])
 def get_memory_virtual_memory():
     data = sd.save_data(base_dir)
+    return jsonify({'virtual_memory': data['memory']['virtual_memory']})
+
+
+# ends points based on date
+@app.route('/memory/virtual_memory/<string:date_>', methods=['GET'])
+def get_memory_virtual_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
     return jsonify({'virtual_memory': data['memory']['virtual_memory']})
 
 
@@ -42,15 +74,39 @@ def get_memory_swap_memory():
     return jsonify({'swap_memory': data['memory']['swap_memory']})
 
 
+# ends points based on date
+@app.route('/memory/swap_memory/<string:date_>', methods=['GET'])
+def get_memory_swap_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'swap_memory': data['memory']['swap_memory']})
+
+
 @app.route('/memory', methods=['GET'])
 def get_memory_metrics():
     data = sd.save_data(base_dir)
     return jsonify({'memory_metrics': data['memory']})
 
 
+# ends points based on date
+@app.route('/memory/<string:date_>', methods=['GET'])
+def get_memory_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
+    return jsonify({'memory_metrics': data['memory']})
+
+
 @app.route('/disk', methods=['GET'])
 def get_disk_metrics():
     data = sd.save_data(base_dir)
+    return jsonify({'disk_metrics': data["disk"]})
+
+
+# ends points based on date
+@app.route('/disk/<string:date_>', methods=['GET'])
+def get_disk_date_metrics(date_):
+    date_ = str(date_)
+    data = sd.get_data(base_dir, date_)
     return jsonify({'disk_metrics': data["disk"]})
 
 

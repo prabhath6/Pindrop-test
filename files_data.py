@@ -38,5 +38,20 @@ class SaveData:
                 f.write(json.dumps(whole_data))
         return whole_data
 
+    @staticmethod
+    def get_data(base_path, date_):
+
+        path = base_path + "/" + "metrics_data" + "/" +date_
+        os.chdir(path)
+
+        filename = sorted(os.listdir())[-1]
+
+        try:
+            f = open(filename)
+            data = f.read()
+            return json.loads(data)
+        except Exception as e:
+            return ""
+
 if __name__ == "__main__":
     sd = SaveData()
