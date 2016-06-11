@@ -9,7 +9,8 @@ class SystemMetrics:
         self._memory_metrics = dict()
         self._system_metric = dict()
 
-    def cpu_times(self):
+    @staticmethod
+    def cpu_times():
 
         cpu_times_metrics = {}
         cp_metrics = psutil.cpu_times(percpu=False)
@@ -20,7 +21,8 @@ class SystemMetrics:
 
         return cpu_times_metrics
 
-    def cpu_usage(self):
+    @staticmethod
+    def cpu_usage():
 
         cpu_usage_metrics = dict()
         cpu_usage_metrics['cpu_count'] = psutil.cpu_count(logical=True)
@@ -36,7 +38,8 @@ class SystemMetrics:
 
         return self._cpu_metrics
 
-    def memory_virtual(self):
+    @staticmethod
+    def memory_virtual():
 
         memory_virtual_memory_metrics = {}
         vm = psutil.virtual_memory()
@@ -48,7 +51,8 @@ class SystemMetrics:
 
         return memory_virtual_memory_metrics
 
-    def swap_memory(self):
+    @staticmethod
+    def swap_memory():
 
         memory_swap = {}
         sm = psutil.swap_memory()
