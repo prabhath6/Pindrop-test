@@ -3,7 +3,7 @@ import psutil
 
 class SystemMetrics:
 
-    def cpu_metrics(self):
+    def cpu_times(self):
 
         cpu_times_metrics = {}
         cp_metrics = psutil.cpu_times(percpu=False)
@@ -17,4 +17,4 @@ class SystemMetrics:
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.cpu_metrics())
+    print(metrics.cpu_times())
