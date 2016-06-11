@@ -34,5 +34,11 @@ def get_memory_virtual_memory():
 
     return jsonify({'virtual_memory': metrics.memory_virtual()})
 
+
+@app.route('/memory/swap_memory', methods=['GET'])
+def get_memory_swap_memory():
+
+    return jsonify({'swap_memory': metrics.swap_memory()})
+
 if __name__ == '__main__':
     app.run()
