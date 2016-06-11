@@ -4,7 +4,6 @@ import psutil
 class SystemMetrics:
 
     def __init__(self):
-
         self._cpu_metrics = dict()
 
     def cpu_times(self):
@@ -27,7 +26,14 @@ class SystemMetrics:
 
         return cpu_usage_metrics
 
+    def cpu_aggregate(self):
+
+        self._cpu_metrics['cpu_times'] = self.cpu_times()
+        self._cpu_metrics['cpu_usage'] = self.cpu_usage()
+
+        return self._cpu_metrics
+
 
 if __name__ == "__main__":
     metrics = SystemMetrics()
-    print(metrics.cpu_usage())
+    print(metrics.cpu_aggregate())
