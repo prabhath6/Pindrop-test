@@ -1,10 +1,9 @@
 from flask import Flask, jsonify
 from SystemMetrics import SystemMetrics
+import os
+from files_data import SaveData
 
 app = Flask(__name__)
-
-metrics = SystemMetrics()
-
 
 @app.route('/', methods=['GET'])
 def system_metrics():
@@ -57,6 +56,16 @@ def get_memory_metrics():
 def get_disk_metrics():
 
     return jsonify({'disk_metrics': metrics.memory_partitions()})
+
+
+@app.before_first_request
+def create():
+    global metrics, sd
+
+    metrics = SystemMetrics()
+    sd = SaveData()
+    base_dir = os.path.dirname(os.path.realpath(__file__))
+    sd.create_base_folder(base_dir)
 
 if __name__ == '__main__':
     app.run()
