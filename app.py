@@ -33,7 +33,6 @@ def get_cpu_times_metrics():
 # ends points based on date
 @app.route('/cpu/times/<string:date_>', methods=['GET'])
 def get_cpu_times_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
     return jsonify({'cpu_time': data['cpu']['cpu_times']})
 
@@ -41,8 +40,6 @@ def get_cpu_times_date_metrics(date_):
 # ends points based on date
 @app.route('/cpu/times/<string:date_>/<string:time_>', methods=['GET'])
 def get_cpu_times_date_time_metrics(date_, time_):
-    date_ = str(date_)
-    time_ = str(time_)
     data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'cpu_time': data['cpu']['cpu_times']})
 
@@ -56,7 +53,6 @@ def get_cpu_usage_metrics():
 # ends points based on date
 @app.route('/cpu/usage/<string:date_>', methods=['GET'])
 def get_cpu_usage_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
     return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
 
@@ -64,8 +60,6 @@ def get_cpu_usage_date_metrics(date_):
 # ends points based on date
 @app.route('/cpu/usage/<string:date_>/<string:time_>', methods=['GET'])
 def get_cpu_usage_date_time_metrics(date_, time_):
-    date_ = str(date_)
-    time_ = str(time_)
     data = sd.get_data_time(base_dir, date_, time_)
     return jsonify({'cpu_usage': data['cpu']['cpu_usage']})
 
@@ -155,7 +149,6 @@ def get_disk_metrics():
 # ends points based on date
 @app.route('/disk/<string:date_>', methods=['GET'])
 def get_disk_date_metrics(date_):
-    date_ = str(date_)
     data = sd.get_data(base_dir, date_)
     return jsonify({'disk_metrics': data["disk"]})
 
