@@ -29,5 +29,10 @@ def get_cpu_metrics():
     return jsonify({'cpu': metrics.cpu_aggregate()})
 
 
+@app.route('/memory/virtual_memory', methods=['GET'])
+def get_memory_virtual_memory():
+
+    return jsonify({'virtual_memory': metrics.memory_virtual()})
+
 if __name__ == '__main__':
     app.run()
