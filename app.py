@@ -52,5 +52,11 @@ def get_memory_metrics():
 
     return jsonify({'memory_metrics': metrics.memory_aggregate()})
 
+
+@app.route('/disk', methods=['GET'])
+def get_disk_metrics():
+
+    return jsonify({'disk_metrics': metrics.memory_partitions()})
+
 if __name__ == '__main__':
     app.run()
